@@ -1,46 +1,31 @@
-import { useState } from "react"
+import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Footer from "./Components/Footer";
 import Header from "./Components/Header";
-import Tasks from "./Components/Tasks";
+import Home from "./Components/Home";
+import Privacy from "./Components/Privacy";
+import Terms from "./Components/Terms";
 
 function App() {
 
-  const [tasks, setTasks] = useState([
-    {
-        id:1,
-        text: 'doctors appointment',
-        day: 'feb 5th at 2: 00am',
-        reminder: true
-    },
-    {
-        id:2,
-        text: 'meeting appointment',
-        day: 'feb 5th at 2: 00am',
-        reminder: true
-    },
-    {
-        id:3,
-        text: 'school appointment',
-        day: 'feb 5th at 2: 00am',
-        reminder: true
-    }
-])
-
-
-/// Delete task function
-const deleteTask = (id) => {
-  setTasks(tasks.filter((task) => task.id != id ))
-}
-
-/// Toggle reminder
-const toggleReminder = (id) =>{
-
-}
+  const [showAddTask, setShowAddTask] = useState(false)
 
   return (
-    <div className="container">
-        <Header />
-        {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={ deleteTask } onToggle={toggleReminder} /> : 'No Task Added' }
-    </div>
+    <Router>
+      <div className="container">
+
+          <Header onAddButton={() => setShowAddTask(!showAddTask)} showAddStat={showAddTask} />          
+
+          <Routes>
+              <Route exact path="/" element={<Home showAddTask={showAddTask} />} />
+
+              <Route exact path="/terms" element={<Terms />} />
+              <Route exact path="/privacy" element={<Privacy />} />
+          </Routes>
+          
+          <Footer />
+      </div>
+    </Router>
   );
 }
 
